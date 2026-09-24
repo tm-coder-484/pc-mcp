@@ -107,3 +107,22 @@ def test_confirm_mode_denies_without_a_person(tmp_path):
     finally:
         proc.terminate()
         proc.wait(10)
+
+
+def test_client_accepts_global_options_after_subcommand(server, tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(pc_client, "CONFIG", tmp_path / "client.json")
+    pc_client.main(["call", "system_info", "--url", f"{server}/{TOKEN}/mcp", "--timeout", "60"])
+    assert '"pc_mcp"' in capsys.readouterr().out
+
+
+def test_space_hogs_counts_real_size_of_sparse_files(server, tmp_path):
+    sparse = tmp_path / "scan" / "vm" / "disk.img"
+    sparse.parent.mkdir(parents=True)
+    with open(sparse, "wb") as f:  # 2 GiB logical, a few bytes written
+        f.seek(2 * 1024**3)
+        f.write(b"x")
+    (tmp_path / "scan" / "real.bin").write_bytes(b"y" * 3_000_000)
+    _, out = _call(f"{server}/{TOKEN}/mcp", "find_space_hogs", {"path": str(tmp_path / "scan")})
+    sizes = {f["file"]: f["size_mb"] for f in out["largest_files"]}
+    assert sizes[str(sparse)] < 1, sizes
+    assert out["largest_files"][0]["file"].endswith("real.bin")

@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import base64
+import html
 import itertools
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -73,10 +75,27 @@ def _popen_kwargs() -> dict:
     return {"start_new_session": True}
 
 
+_CLIXML_BLOCK = re.compile(r"#< CLIXML\s*(<Objs\b.*?</Objs>)", re.S)
+_CLIXML_STRING = re.compile(r'<S S="(?:Error|Warning|Verbose|Debug|Information)">(.*?)</S>', re.S)
+_CLIXML_ESCAPE = re.compile(r"_x([0-9A-Fa-f]{4})_")
+
+
+def decode_clixml(text: str) -> str:
+    """Windows PowerShell started with -EncodedCommand serialises its error stream as CLIXML
+    (`#< CLIXML <Objs>...`); turn those blocks back into the plain text a person would see."""
+
+    def plain(match: re.Match) -> str:
+        parts = _CLIXML_STRING.findall(match.group(1))
+        text = "".join(html.unescape(_CLIXML_ESCAPE.sub(lambda m: chr(int(m.group(1), 16)), p)) for p in parts)
+        return text.replace("\r\n", "\n")
+
+    return _CLIXML_BLOCK.sub(plain, text) if "#< CLIXML" in text else text
+
+
 def _decode(data: bytes | None) -> str:
     if not data:
         return ""
-    return data.decode("utf-8", errors="replace").replace("\r\n", "\n")
+    return decode_clixml(data.decode("utf-8", errors="replace").replace("\r\n", "\n"))
 
 
 def truncate_middle(text: str, limit: int) -> str:

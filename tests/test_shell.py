@@ -74,3 +74,12 @@ def test_background_job_lifecycle(tmp_path):
     assert jobs.describe(long)["status"] == "stopped"
     with pytest.raises(ValueError):
         jobs.get("job999")
+
+
+def test_clixml_error_stream_is_decoded():
+    raw = (
+        '#< CLIXML\n<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">'
+        '<S S="Error">Get-Thing : Invalid query _x000D__x000A_</S><S S="Error">At line:2 char:1 &amp; more_x000D__x000A_</S></Objs>'
+    )
+    assert shell.decode_clixml("before\n" + raw) == "before\nGet-Thing : Invalid query \nAt line:2 char:1 & more\n"
+    assert shell.decode_clixml("plain text") == "plain text"

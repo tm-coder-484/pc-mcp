@@ -507,7 +507,7 @@ def _scan_sizes(root: Path, top: int, max_seconds: int) -> dict:
             if _skip(top_entry):
                 continue
             if not top_entry.is_dir(follow_symlinks=False):
-                size = top_entry.stat(follow_symlinks=False).st_size
+                size = disk_usage_of(top_entry.path, top_entry.stat(follow_symlinks=False))
                 root_files_size += size
                 _push(biggest, top, size, top_entry.path)
                 continue
@@ -530,7 +530,7 @@ def _scan_sizes(root: Path, top: int, max_seconds: int) -> dict:
                             if e.is_dir(follow_symlinks=False):
                                 stack.append(e.path)
                             else:
-                                size = e.stat(follow_symlinks=False).st_size
+                                size = disk_usage_of(e.path, e.stat(follow_symlinks=False))
                                 total += size
                                 files += 1
                                 _push(biggest, top, size, e.path)
@@ -557,6 +557,26 @@ def _scan_sizes(root: Path, top: int, max_seconds: int) -> dict:
             {"file": p, "size_mb": round(s / diagnostics.MB, 1)} for s, p in sorted(biggest, reverse=True)
         ],
     }
+
+
+_SPARSE_OR_COMPRESSED = 0x200 | 0x800  # FILE_ATTRIBUTE_SPARSE_FILE | FILE_ATTRIBUTE_COMPRESSED
+
+
+def disk_usage_of(path: str, st: os.stat_result) -> int:
+    """Bytes a file really occupies. Sparse files (VM/emulator disks) and compressed files can report a huge
+    logical size while using little space, so count allocated blocks instead of st_size."""
+    if sys.platform != "win32":
+        blocks = getattr(st, "st_blocks", None)
+        return st.st_size if blocks is None else min(st.st_size, blocks * 512)
+    if not getattr(st, "st_file_attributes", 0) & _SPARSE_OR_COMPRESSED:
+        return st.st_size
+    import ctypes
+
+    high = ctypes.c_ulong(0)
+    low = ctypes.windll.kernel32.GetCompressedFileSizeW(ctypes.c_wchar_p(path), ctypes.byref(high))
+    if low == 0xFFFFFFFF and ctypes.GetLastError():
+        return st.st_size
+    return (high.value << 32) + low
 
 
 def _skip(entry: os.DirEntry) -> bool:

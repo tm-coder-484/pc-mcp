@@ -1,0 +1,6 @@
+# Batch files must keep CRLF endings (goto/labels misbehave with LF); store them byte-for-byte.
+*.bat -text
+*.sh text eol=lf
+*.command text eol=lf
+*.py text eol=lf
+*.ps1 text eol=lf

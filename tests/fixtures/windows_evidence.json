@@ -1,0 +1,153 @@
+{
+  "is_admin": false,
+  "os_caption": "Microsoft Windows 11 Home",
+  "os_build": "22631",
+  "manufacturer": "Contoso",
+  "model": "Laptop 5000",
+  "commit": {
+    "used_gb": 15.0,
+    "limit_gb": 16.0,
+    "used_percent": 93.8
+  },
+  "processor_performance_percent": 42,
+  "processor_utility_percent": 88,
+  "cpu_max_clock_mhz": 2800,
+  "power_plan": {
+    "guid": "a1841308-3541-4fab-bc81-f71556f20b4a",
+    "name": "Power saver",
+    "power_mode_ac": "Best power efficiency"
+  },
+  "physical_disks": [
+    {
+      "name": "WDC WD10SPZX",
+      "media_type": "HDD",
+      "bus_type": "SATA",
+      "health": "Healthy",
+      "size_gb": 1024.0,
+      "is_system": true
+    },
+    {
+      "name": "USB Stick",
+      "media_type": "Unspecified",
+      "bus_type": "USB",
+      "health": "Warning",
+      "size_gb": 32.0,
+      "is_system": false
+    }
+  ],
+  "disk_errors_7d": 4,
+  "hardware_errors_7d": 2,
+  "unexpected_shutdowns_7d": 1,
+  "low_memory_events_7d": 3,
+  "system_errors_7d_top": [
+    {
+      "source": "Service Control Manager",
+      "id": 7031,
+      "count": 5,
+      "last": "2026-09-24T19:57:55",
+      "example": "Fake Service Control Manager event 7031 with extra whitespace"
+    },
+    {
+      "source": "Microsoft-Windows-Kernel-Power",
+      "id": 41,
+      "count": 1,
+      "last": "2026-09-24T19:57:55",
+      "example": "Fake Microsoft-Windows-Kernel-Power event 41 with extra whitespace"
+    }
+  ],
+  "app_hangs_7d": {
+    "chrome.exe": 3,
+    "Teams.exe": 1
+  },
+  "last_boot_duration_ms": 123456,
+  "last_boot_at": "2026-09-24T19:57:55",
+  "slow_boot_culprits": [
+    "bloat.exe",
+    "SlowUpdater"
+  ],
+  "startup_apps": [
+    {
+      "name": "App1",
+      "command": "C:\\Apps\\app1.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App2",
+      "command": "C:\\Apps\\app2.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App3",
+      "command": "C:\\Apps\\app3.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App4",
+      "command": "C:\\Apps\\app4.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App5",
+      "command": "C:\\Apps\\app5.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App6",
+      "command": "C:\\Apps\\app6.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App7",
+      "command": "C:\\Apps\\app7.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App8",
+      "command": "C:\\Apps\\app8.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App9",
+      "command": "C:\\Apps\\app9.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App10",
+      "command": "C:\\Apps\\app10.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App11",
+      "command": "C:\\Apps\\app11.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App12",
+      "command": "C:\\Apps\\app12.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "App13",
+      "command": "C:\\Apps\\app13.exe --tray",
+      "location": "HKU\\S-1-5-21\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    }
+  ],
+  "startup_apps_disabled": 1,
+  "pending_reboot": true,
+  "fast_startup": true,
+  "antivirus_products": [
+    "Windows Defender",
+    "Norton 360"
+  ],
+  "gpus": [
+    {
+      "name": "Intel UHD",
+      "driver_version": "27.20.100.8681",
+      "driver_date": "2020-09-01"
+    }
+  ],
+  "acpi_thermal_c": [
+    95.1
+  ],
+  "errors": []
+}
